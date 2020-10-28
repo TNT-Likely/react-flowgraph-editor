@@ -1,0 +1,47 @@
+@main_color: #fa3246;
+@primary_color: #eee;
+@disable_color: #666;
+
+* {
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.toolbar {
+  height: 50px;
+  padding: 10px;
+  button {
+    margin-left: 8px;
+    padding: 4px 16px;
+    background-color: @main_color;
+    color: #fff;
+
+    &[disabled] {
+      background-color: @disable_color;
+    }
+  }
+  border: 1px solid @primary_color;
+}
+
+.container {
+  display: flex;
+  .dragitems {
+    width: 100px;
+    padding: 10px 30px;
+    border: 1px solid @primary_color;
+    border-top: 0;
+    > div {
+      padding: 10px;
+      border: 1px dashed @main_color;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+  }
+
+  .flow-editor {
+    flex: 1;
+  }
+}
