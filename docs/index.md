@@ -7,7 +7,7 @@ order: 1
 ## 安装
 
 ```
-npm i -s react-flowchart-editor
+npm i -s react-flowgraph-editor
 ```
 
 # 使用

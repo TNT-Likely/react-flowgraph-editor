@@ -1,4 +1,4 @@
-# react-flowchart-editor
+# react-flowgraph-editor
 
 基于 react 与 g6 的流程图编辑器
 
@@ -7,12 +7,12 @@
 安装依赖
 
 ```bash
-$ npm i -s react-flowchart-editor
+$ npm i -s react-flowgraph-editor
 ```
 
 ```tsx
 import React, { useState } from 'react';
-import Editor, { DragItem } from 'react-flowchart-editor';
+import Editor, { DragItem } from 'react-flowgraph-editor';
 import './index.less';
 
 const data = {

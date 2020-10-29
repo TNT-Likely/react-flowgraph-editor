@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Editor, { DragItem } from 'react-flowchart-editor';
+import Editor, { DragItem } from 'react-flowgraph-editor';
 import './index.less';
 
 const data = {
