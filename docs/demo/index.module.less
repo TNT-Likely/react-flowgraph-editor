@@ -1,31 +1,38 @@
 .main {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   background-color: #f5f5f5;
 }
 
 .header {
   width: 100%;
-  height: 60px;
   background-color: #fff;
+  border-bottom: 1px solid #f7f7f7;
+  padding: 8px 0 8px 50px;
 }
 
 .body {
   display: flex;
+  flex: 1;
   justify-content: space-between;
 }
 
 .materials {
-  width: 40px;
+  width: 50px;
   background-color: #fff;
+  > div {
+    text-align: center;
+    margin-top: 8px;
+  }
 }
 
 .workzone {
   flex: 1;
   overflow: scroll;
+  padding: 16px;
 }
 
 .panel {
   background-color: #fff;
-  width: 220px;
+  width: 280px;
 }

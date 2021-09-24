@@ -1,6 +1,17 @@
+/**
+ * iframe: 720
+ */
 import React, { useState } from 'react';
-import Editor, { DragItem, DetailPanel } from 'r-flowgraph-editor';
+import Editor, { DragItem, DetailPanel, ToolBar } from 'r-flowgraph-editor';
 import Style from './index.module.less';
+import { createFromIconfontCN } from '@ant-design/icons';
+
+const MyIcon = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2832936_1y0tjuleyst.js', // 在 iconfont.cn 上生成
+  extraCommonProps: {
+    style: { fontSize: 20 },
+  },
+});
 
 const Main = (props) => {
   const data = {
@@ -33,13 +44,29 @@ const Main = (props) => {
 
   return (
     <div className={Style.main}>
-      <div className={Style.header}></div>
+      <div className={Style.header}>
+        <ToolBar />
+      </div>
       <div className={Style.body}>
         <div className={Style.materials}>
-          <DragItem>矩形</DragItem>
+          <DragItem type="flowText">
+            <MyIcon type="icon-text" />
+          </DragItem>
+          <DragItem>
+            <MyIcon type="icon-rect" />
+          </DragItem>
+          <DragItem type="flowRoundRect">
+            <MyIcon type="icon-roundRect" />
+          </DragItem>
+          <DragItem type="flowCircle">
+            <MyIcon type="icon-circle" />
+          </DragItem>
+          <DragItem type="flowDiamond">
+            <MyIcon type="icon-diamond" />
+          </DragItem>
         </div>
         <div className={Style.workzone}>
-          <Editor data={data} grid onItemSelect={(id) => setItemId(id)} />
+          <Editor data={data} onItemSelect={(id) => setItemId(id)} />
         </div>
         <div className={Style.panel}>
           <DetailPanel id={itemId} />

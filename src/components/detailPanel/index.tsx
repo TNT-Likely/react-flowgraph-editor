@@ -12,6 +12,7 @@ import {
   AlignLeftOutlined,
   AlignRightOutlined,
   AlignCenterOutlined,
+  BgColorsOutlined,
 } from '@ant-design/icons';
 import {
   ItemType,
@@ -146,6 +147,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
           <div className={`${prefixCls}-header`}>背景配置</div>
           <div className={`${prefixCls}-content`}>
             <ColorConfig
+              icon={BgColorsOutlined}
               defaultValue={wFill}
               onChange={(value: string) => handleWrappperChange('fill', value)}
             />
