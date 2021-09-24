@@ -7,6 +7,7 @@ import { zoomIn, zoomOut, zoomZero } from '@/util';
 
 const behavior = {
   isControl: false,
+  isShift: false,
   getEvents() {
     return {
       keydown: 'handleKeyDown',
@@ -15,19 +16,14 @@ const behavior = {
   },
 
   handleKeyDown(e: KeyboardEvent) {
-    e.preventDefault();
-    console.log(e.keyCode);
     switch (e.keyCode) {
-      case KeyCode.Control:
-        this.isControl = true;
-        break;
       case KeyCode.Z:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           Instance.undo();
         }
         break;
       case KeyCode.Y:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           Instance.redo();
         }
         break;
@@ -35,43 +31,53 @@ const behavior = {
         Instance.deleteSelected();
         break;
       case KeyCode.C:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           Instance.copy();
         }
         break;
       case KeyCode.V:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           Instance.paste();
         }
         break;
       case KeyCode.Add:
       case KeyCode.NumberAdd:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           zoomIn();
         }
         break;
       case KeyCode.Minus:
       case KeyCode.NumberMinus:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           zoomOut();
         }
         break;
       case KeyCode.Zero:
       case KeyCode.NumberZero:
-        if (this.isControl) {
+        if (e.ctrlKey || e.metaKey) {
           zoomZero();
+        }
+        break;
+      case KeyCode.A:
+        if (e.ctrlKey || e.metaKey) {
+          Instance.selectAll();
+        }
+        break;
+      case KeyCode.L:
+        if (e.shiftKey && (e.ctrlKey || e.metaKey)) {
+          Instance.unlock();
+          break;
+        }
+
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          Instance.lock();
+          break;
         }
     }
   },
 
-  handleKeyUp(e: KeyboardEvent) {
-    e.preventDefault();
-    switch (e.keyCode) {
-      case KeyCode.Control:
-        this.isControl = false;
-        break;
-    }
-  },
+  handleKeyUp(e: KeyboardEvent) {},
 };
 
 G6.registerBehavior(BehaviorType.ShortCuts, behavior);

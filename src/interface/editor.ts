@@ -9,6 +9,7 @@ import {
   ComboConfig,
   ITEM_TYPE,
   TreeGraphData,
+  LabelStyle,
 } from '@antv/g6/lib/types';
 
 export interface IStack {
@@ -16,7 +17,7 @@ export interface IStack {
   canRedo: boolean;
 }
 
-export interface IEditorProps extends Pick<GraphOptions, 'width' | 'height'> {
+export interface IEditorProps extends GraphOptions {
   data: GraphData;
   grid?: boolean;
   ratio?: number;
@@ -25,6 +26,11 @@ export interface IEditorProps extends Pick<GraphOptions, 'width' | 'height'> {
   behaviors?: DefaultBehaviorType[];
   onStackChange?: (stackData: IStack) => void;
   onRatioChange?: (ratio: number) => void;
+  onNodeClick?: (
+    style: LabelStyle,
+    update: (style: LabelStyle) => void,
+  ) => void;
+  onItemSelect?: (id: string) => void;
 }
 
 export interface IInstance extends Pick<IEditorProps, 'ratio' | 'editable'> {
@@ -41,12 +47,20 @@ export interface IInstance extends Pick<IEditorProps, 'ratio' | 'editable'> {
   calculatePosition: (x: number, y: number) => { x: number; y: number };
   getData: () => GraphData | TreeGraphData;
   changeData: (data: GraphData) => void;
+  changeSize: (width: number, height: number) => void;
   changeZoom: (ratio: number, hasCallback?: boolean) => void;
   undo: () => void;
   redo: () => void;
   deleteSelected: () => void;
   copy: () => void;
   paste: () => void;
+  destroy: () => void;
+  fixData: (data: GraphData) => void;
+  publish: (type: string, value: any) => void;
+  subscribe: (type: string, callback: (value: any) => void) => void;
+  selectAll: () => void;
+  lock: () => void;
+  unlock: () => void;
 }
 
 export interface ISelectedItems {

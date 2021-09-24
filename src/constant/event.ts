@@ -36,6 +36,19 @@ export const GraphCustomEvent = {
   onAfterConnect: 'afterconnect',
   /** 堆栈发生改变 */
   onStackChange: 'stackchange',
+
+  /** 设置元素状态之后 */
+  onGraphStateChange: 'graphstatechange',
+
   /** 选择节点发生改变 */
   onNodeselectchange: 'nodeselectchange',
+
+  /** 点击节点 */
+  onNodeClick: 'node:click',
+
+  /** 点击边 */
+  onEdgeClick: 'edge:click',
+
+  /** 点击画布 */
+  onCanvasClick: 'canvas:click',
 };

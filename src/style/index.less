@@ -1,4 +1,7 @@
 .flow-editor {
+  // position: absolute;
+  // top: 0;
+  // left: 0;
   width: 100%;
   height: 100%;
   z-index: 999;
@@ -34,4 +37,48 @@
   box-sizing: border-box;
   width: 120px;
   user-select: none;
+}
+
+.g6-component-contextmenu {
+  width: 240px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1) !important;
+  background: #fff !important;
+  border-radius: 3px !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      padding: 0 16px;
+      height: 28px;
+      line-height: 28px;
+      font-size: 12px;
+      color: #415058;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      span {
+        float: right;
+        color: rgba(141, 158, 167, 0.64);
+      }
+      &:hover {
+        color: rgb(94, 161, 252);
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+
+      &[disabled] {
+        color: #bbb;
+        cursor: not-allowed;
+      }
+    }
+
+    hr {
+      border: none;
+      border-bottom: 1px solid #eee;
+      margin: 4px 0;
+      height: 0;
+      width: 100%;
+    }
+  }
 }

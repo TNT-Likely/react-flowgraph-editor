@@ -1,26 +1,11 @@
 import G6 from '@antv/g6';
 
-import {
-  clearSelectedState,
-  removeAllCombo,
-  showLabelEditor,
-  hideLabelEditor,
-} from '@/util';
-import {
-  ItemState,
-  ItemType,
-  BehaviorType,
-  EDGE_LABEL_WRAPPER_CLASS_NAME,
-} from '@/constant';
+import { clearSelected, showLabelEditor } from '@/util';
+import { ItemState, ItemType, BehaviorType } from '@/constant';
 import { Instance } from '@/index';
 
 import { Graph } from '@antv/g6';
-import {
-  IG6GraphEvent,
-  BehaviorOption,
-  Item,
-  IEvent,
-} from '@antv/g6/lib/types';
+import { IG6GraphEvent, BehaviorOption } from '@antv/g6/lib/types';
 
 const clickItemBehavior: BehaviorOption = {
   getDefaultCfg(): object {
@@ -53,7 +38,7 @@ const clickItemBehavior: BehaviorOption = {
     if (this.multiple && this.keydown) {
       graph.setItemState(item, ItemState.Selected, !isSelected);
     } else {
-      clearSelectedState(graph, selectedItem => {
+      clearSelected(graph, (selectedItem) => {
         return selectedItem !== item;
       });
 
@@ -66,6 +51,9 @@ const clickItemBehavior: BehaviorOption = {
   /** 双击节点或者边 */
   handleItemDbClick({ item }: IG6GraphEvent) {
     if (!item) return;
+    const isNode = item.getType() === ItemType.Node;
+    if (isNode && item.hasLocked()) return;
+
     const graph = this.graph as Graph;
 
     const { ratio } = Instance;
@@ -78,7 +66,7 @@ const clickItemBehavior: BehaviorOption = {
     let shape;
 
     /** 计算文本编辑框样式 */
-    if (item.getType() === ItemType.Node) {
+    if (isNode) {
       const { width, height, x, y } = item.getBBox();
       const padding = 20;
 
@@ -118,8 +106,7 @@ const clickItemBehavior: BehaviorOption = {
     const graph = this.graph as Graph;
     this.item = null;
 
-    removeAllCombo(graph);
-    clearSelectedState(graph);
+    clearSelected(graph);
   },
 
   handleKeyDown(e: any) {

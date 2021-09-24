@@ -15,18 +15,7 @@ import { G6GraphEvent } from '@antv/g6/lib/interface/behavior';
 import { IPoint, Item } from '@antv/g6/lib/types';
 import { INode } from '@antv/g6/lib/interface/item';
 
-interface IDragResizeNode extends IBehaviorOption {
-  attrs: IPoint;
-  item: Item;
-  point: number[];
-}
-
-const behavior: IDragResizeNode = {
-  graph: {} as Graph,
-  attrs: {} as IPoint,
-  item: {} as Item,
-  isResize: false,
-  point: [],
+const behavior: any = {
   getDefaultCfg() {
     return {};
   },
@@ -44,7 +33,7 @@ const behavior: IDragResizeNode = {
     if (!target) return;
 
     const name = target.get('name');
-    if (name === CONTROL_POINT_NAME) {
+    if (name === CONTROL_POINT_NAME && !item.hasLocked()) {
       this.isResize = true;
       this.attrs = target.get('canvasBBox');
       this.point = target.get('point');
@@ -71,16 +60,6 @@ const behavior: IDragResizeNode = {
       let position;
 
       switch (type) {
-        case NodeType.FlowCircle:
-          size = [
-            width + (point[0] || -1) * offsetLeft,
-            height + (point[1] || -1) * offsetTop,
-          ];
-          position = {
-            x: itemX + (point[0] - 1) * offsetLeft * -1,
-            y: itemY + (point[1] - 1) * offsetTop * -1,
-          };
-          break;
         default:
           size = [
             width + (point[0] || -1) * offsetLeft,

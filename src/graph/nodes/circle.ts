@@ -13,7 +13,6 @@ const bizFlowNode: any = {
   /** 绘制wrapper */
   drawWrapper(model: NodeConfig, group: GGroup) {
     const [rx, ry] = this.getSize(model);
-    const { wrapperStyle } = this.getOptions(model);
 
     const shape = group.addShape(NodeType.Ellipse, {
       className: WRAPPER_CLASS_NAME,
@@ -23,7 +22,6 @@ const bizFlowNode: any = {
         y: ry / 2,
         rx: rx / 2,
         ry: ry / 2,
-        ...wrapperStyle,
       },
     });
 
@@ -33,7 +31,6 @@ const bizFlowNode: any = {
   /** 绘制标签 */
   drawLabel(model: NodeConfig, group: GGroup) {
     const [rx, ry] = this.getSize(model);
-    const { labelStyle } = this.getOptions(model);
 
     const shape = group.addShape('text', {
       className: LABEL_CLASS_NAME,
@@ -42,7 +39,6 @@ const bizFlowNode: any = {
         x: rx / 2,
         y: ry / 2,
         text: model.label || '',
-        ...labelStyle,
       },
     });
 
@@ -53,9 +49,7 @@ const bizFlowNode: any = {
   updateWrapper(model: NodeConfig, group: GGroup) {
     const shape = group.findByClassName(WRAPPER_CLASS_NAME);
     const [rx, ry] = this.getSize(model);
-    const { wrapperStyle } = this.getOptions(model);
     shape.attr({
-      ...wrapperStyle,
       x: rx / 2,
       y: ry / 2,
       rx: rx / 2,
@@ -67,9 +61,7 @@ const bizFlowNode: any = {
   updateLabel(model: NodeConfig, group: GGroup) {
     const [rx, ry] = this.getSize(model);
     const shape = group.findByClassName(LABEL_CLASS_NAME);
-    const { labelStyle } = this.getOptions(model);
     shape.attr({
-      ...labelStyle,
       x: rx / 2,
       y: ry / 2,
     });
@@ -77,7 +69,7 @@ const bizFlowNode: any = {
 
   getCustomConfig() {
     return {
-      size: [120, 120],
+      size: [100, 100],
     };
   },
 };

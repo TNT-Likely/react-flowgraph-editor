@@ -4,9 +4,9 @@ import { NodeType } from '@/constant';
 const bizFlowNode = {
   getCustomConfig() {
     return {
-      size: [120, 60],
+      size: [120, 50],
       wrapperStyle: {
-        radius: 8,
+        radius: 24,
       },
     };
   },

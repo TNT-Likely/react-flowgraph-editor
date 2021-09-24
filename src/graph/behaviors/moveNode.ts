@@ -9,16 +9,13 @@ import {
 } from '@/constant';
 import { Instance } from '../..';
 import Snapline from '../common/snapline';
-import {
-  getStackData,
-  clearSelectedState,
-  showTooltip,
-  hideTooltip,
-} from '@/util';
+import { getStackData, showTooltip, hideTooltip, getCombo } from '@/util';
 
 const sLine = new Snapline();
 
 import { Graph } from '@antv/g6';
+import { clearSelected } from '@/util';
+
 import {
   IBehaviorOption,
   IEdgeStack,
@@ -27,6 +24,7 @@ import {
   IStackData,
   IStackDatas,
 } from '@/interface';
+
 import { G6GraphEvent } from '@antv/g6/lib/interface/behavior';
 import { IPoint, Item, IG6GraphEvent } from '@antv/g6/lib/types';
 import { INode, IEdge } from '@antv/g6/lib/interface/item';
@@ -69,18 +67,28 @@ const behavior: IMoveNode = {
     }
 
     if (!this.draging) {
+      if (!getCombo()) {
+        clearSelected(graph);
+      }
+
       graph.setItemState(item, ItemState.Selected, true);
+
+      if (item.hasLocked()) {
+        return;
+      }
 
       this.draging = true;
       this.origin = { x, y };
-      this.nodes = graph.findAllByState(ItemType.Node, ItemState.Selected);
+      this.nodes = getCombo()
+        ? getCombo().getNodes()
+        : graph.findAllByState(ItemType.Node, ItemState.Selected);
       const edges = this.nodes.reduce((ac, cur) => {
-        cur.getEdges().forEach(edge => {
+        cur.getEdges().forEach((edge) => {
           ac[edge.getID() as string] = edge;
         });
         return ac;
       }, {} as any);
-      this.edges = Object.keys(edges).map(edgeId => edges[edgeId]);
+      this.edges = Object.keys(edges).map((edgeId) => edges[edgeId]);
       this.points = this.nodes.reduce((ac, cur) => {
         const model = cur.getModel();
         ac[model.id || ''] = {
@@ -94,12 +102,12 @@ const behavior: IMoveNode = {
       this.nodes.forEach((node: INode) => {
         beforeData.nodes.push(getStackData(node) as INodeStack);
       });
-      this.edges.forEach(edge => {
+      this.edges.forEach((edge) => {
         beforeData.edges.push(getStackData(edge));
       });
       this.beforeData = beforeData;
 
-      this.edges.forEach(edge => {
+      this.edges.forEach((edge) => {
         graph.updateItem(edge, { nowPath: null }, false);
       });
     }
@@ -111,11 +119,11 @@ const behavior: IMoveNode = {
     if (this.draging && item) {
       const { graph, origin, nodes, edges, points } = this;
       const id = item.getID();
-      const otherNodes = nodes.filter(node => node.getID() !== id);
+      const otherNodes = nodes.filter((node) => node.getID() !== id);
       const offsetX = x - origin.x;
       const offsetY = y - origin.y;
 
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const nodeId: any = node.getID();
         const model = points[nodeId];
         const position = {
@@ -123,15 +131,21 @@ const behavior: IMoveNode = {
           y: model.y + offsetY,
         };
 
-        graph.updateItem(node, position, false);
+        !node.hasLocked() && graph.updateItem(node, position, false);
       });
 
       /** 如果是多选，手动更新edge的path */
       if (otherNodes.length > 0) {
       }
-    }
 
-    showTooltip(`X:${Math.floor(x)}  Y:${Math.floor(y)}`, <INode>item);
+      /** 如果存在分组去更新分组位置 */
+      const combo = graph.getCombos()[0];
+      if (!!combo) {
+        graph.updateCombo(combo);
+      }
+
+      showTooltip(`X:${Math.floor(x)}  Y:${Math.floor(y)}`, <INode>item);
+    }
 
     if (this.nodes.length === 1) {
       sLine.move(item);
@@ -142,10 +156,10 @@ const behavior: IMoveNode = {
     if (this.draging && item) {
       const { graph, beforeData } = this;
       const afterData: IStackData = { nodes: [], edges: [], combos: [] };
-      this.nodes.forEach(node => {
+      this.nodes.forEach((node) => {
         afterData.nodes.push(getStackData(node) as INodeStack);
       });
-      this.edges.forEach(edge => {
+      this.edges.forEach((edge) => {
         afterData.edges.push(getStackData(edge));
       });
 
@@ -156,7 +170,6 @@ const behavior: IMoveNode = {
 
       graph.pushStack(ActionType.Update, stackDatas);
 
-      graph.setItemState(item, ItemState.Selected, false);
       this.draging = false;
       this.nodes = [];
       this.edges = [];

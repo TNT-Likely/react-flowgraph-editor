@@ -8,6 +8,7 @@ import {
   EDGE_LABEL_WRAPPER_CLASS_NAME,
   EDGE_START_PLACEHOLDER_NAME,
   EDGE_END_PLACEHOLDER_NAME,
+  Color,
 } from '@/constant';
 import { getPolylinePoints } from '@/util';
 
@@ -23,7 +24,7 @@ const PLACEHOLDER_STYLE = {
   width: PLACEHOLDER_SIZE,
   height: PLACEHOLDER_SIZE,
   lineWidth: 1,
-  stroke: '#5AAAFF',
+  stroke: Color.Base,
   fill: '#fff',
   cursor: 'move',
   opacity: 0,
@@ -33,7 +34,7 @@ const CLS_SHAPE = 'edge-shape';
 
 const DRAGLINE_STYLE = {
   lineWidth: 2,
-  stroke: '#fa3246',
+  stroke: Color.SnapLine,
   lineAppendWidth: 5,
   opacity: 0,
 };
@@ -41,7 +42,7 @@ const DRAGLINE_STYLE = {
 const bizFlowEdge: any = {
   options: {
     style: {
-      stroke: '#ccc1d8',
+      stroke: Color.Base,
       lineAppendWidth: 5,
       lineWidth: 2,
       shadowColor: null,
@@ -50,6 +51,7 @@ const bizFlowEdge: any = {
       offset: 24,
       endArrow: {
         path: 'M 0,0 L 4,3 L 4,-3 Z',
+        lineDash: [0, 0],
       },
       cursor: 'pointer',
     },
@@ -61,22 +63,18 @@ const bizFlowEdge: any = {
         cursor: 'pointer',
         background: {
           padding: [0, 0, 0, 0],
-          // padding: [5, 5, 5, 5],
           fill: '#fff',
-          // stroke: '#fa3246'
         },
       },
     },
     routeCfg: {},
     stateStyles: {
       [ItemState.Selected]: {
-        stroke: '#5aaaff',
-        shadowColor: '#5aaaff',
+        shadowColor: Color.Base,
         shadowBlur: 24,
       },
       [ItemState.HighLight]: {
-        stroke: '#5aaaff',
-        shadowColor: '#5aaaff',
+        shadowColor: Color.Base,
         shadowBlur: 24,
       },
     },
@@ -163,7 +161,7 @@ const bizFlowEdge: any = {
    */
   drawDragLine(model: EdgeConfig, group: GGroup) {
     const shape = group.find(
-      element => element.get('className') === 'edge-shape',
+      (element) => element.get('className') === 'edge-shape',
     );
 
     const linePoints = shape.attr('path').map((point: any) => ({
@@ -207,7 +205,7 @@ const bizFlowEdge: any = {
 
   removeDragLine(group: GGroup) {
     const shapes = group.findAllByName(DRAGLINE_NAME);
-    shapes.forEach(shape => group.removeChild(shape));
+    shapes.forEach((shape) => group.removeChild(shape));
   },
 
   drawSingleLine(
@@ -309,6 +307,8 @@ const bizFlowEdge: any = {
 
   setState(name: string, value: boolean, item: IEdge) {
     const shape = item.get('keyShape');
+    const model = item.getModel();
+    const modelStyle = model.style || {};
 
     if (!shape) {
       return;
@@ -325,10 +325,14 @@ const bizFlowEdge: any = {
     if (value) {
       shape.attr({
         ...style,
+        ...modelStyle,
         ...stateStyle,
       });
     } else {
-      shape.attr(style);
+      shape.attr({
+        ...style,
+        ...modelStyle,
+      });
     }
   },
 };

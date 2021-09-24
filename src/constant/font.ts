@@ -1,0 +1,16 @@
+export const ALLOW_FONT_FAMILY = [
+  'Arial',
+  'Verdana',
+  'Georgia',
+  'Times New Roman',
+  'Courier New',
+  'Impact',
+  'sans-serif',
+  '宋体',
+  '微软雅黑',
+  '黑体',
+  '楷体',
+  '仿宋',
+  '新宋体',
+  '等线',
+];

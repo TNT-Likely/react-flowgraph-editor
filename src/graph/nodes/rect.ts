@@ -1,4 +1,5 @@
 import G6 from '@antv/g6';
+import { transform, mat3 } from '@antv/matrix-util';
 import {
   NodeType,
   ItemState,
@@ -12,7 +13,6 @@ import { NodeConfig } from '@antv/g6/lib/types';
 const bizFlowNode: any = {
   drawWrapper(model: NodeConfig, group: GGroup) {
     const [width, height] = this.getSize(model);
-    const { wrapperStyle } = this.getOptions(model);
 
     const shape = group.addShape('rect', {
       className: WRAPPER_CLASS_NAME,
@@ -22,16 +22,24 @@ const bizFlowNode: any = {
         y: 0,
         width,
         height,
-        ...wrapperStyle,
       },
     });
+
+    // let matrix = shape.getMatrix();
+
+    // if (!matrix) matrix = mat3.create();
+
+    // const newMatrix = transform(matrix, [
+    //   ['r', Math.PI / 4], // rotate
+    // ]);
+
+    // shape.setMatrix(newMatrix);
 
     return shape;
   },
 
   drawLabel(model: NodeConfig, group: GGroup) {
     const [width, height] = this.getSize(model);
-    const { labelStyle } = this.getOptions(model);
 
     const shape = group.addShape('text', {
       className: LABEL_CLASS_NAME,
@@ -40,9 +48,18 @@ const bizFlowNode: any = {
         x: width / 2,
         y: height / 2,
         text: model.label || '',
-        ...labelStyle,
       },
     });
+
+    // let matrix = shape.getMatrix();
+
+    // if (!matrix) matrix = mat3.create();
+
+    // const newMatrix = transform(matrix, [
+    //   ['r', Math.PI / 4], // rotate
+    // ]);
+
+    // shape.setMatrix(newMatrix);
 
     return shape;
   },
@@ -51,9 +68,7 @@ const bizFlowNode: any = {
   updateLabel(model: NodeConfig, group: GGroup) {
     const [width, height] = this.getSize(model);
     const shape = group.findByClassName(LABEL_CLASS_NAME);
-    const { labelStyle } = this.getOptions(model);
     shape.attr({
-      ...labelStyle,
       x: width / 2,
       y: height / 2,
     });
@@ -63,9 +78,7 @@ const bizFlowNode: any = {
   updateWrapper(model: NodeConfig, group: GGroup) {
     const shape = group.findByClassName(WRAPPER_CLASS_NAME);
     const [width, height] = this.getSize(model);
-    const { wrapperStyle } = this.getOptions(model);
     shape.attr({
-      ...wrapperStyle,
       width,
       height,
     });
@@ -73,7 +86,7 @@ const bizFlowNode: any = {
 
   getCustomConfig() {
     return {
-      size: [120, 60],
+      size: [120, 50],
     };
   },
 };

@@ -48,10 +48,9 @@ export const showLabelEditor = (
   onChange: TLabelOnChange,
 ) => {
   const { ratio } = Instance;
-  const {
-    x: cX,
-    y: cY,
-  } = Instance.graph.getContainer().getBoundingClientRect();
+  const { x: cX, y: cY } = Instance.graph
+    .getContainer()
+    .getBoundingClientRect();
 
   style.width = style.width + 'px';
   style.height = style.height + 'px';
@@ -72,7 +71,6 @@ export const showLabelEditor = (
     labelEditor.addEventListener('blur', handleChange);
     labelEditor.addEventListener('keydown', handleKeyDown);
     if (window.getSelection) {
-      labelEditor.focus();
       const range = window.getSelection();
 
       /** 选中内容 */
@@ -82,6 +80,8 @@ export const showLabelEditor = (
       // range.collapseToEnd()
     }
     modifyCSS(labelEditor, { ...style, visibility: 'visible' });
+
+    labelEditor.focus();
   });
 };
 

@@ -3,6 +3,7 @@ import {
   AnchorPointState,
   ANCHOR_POINT_NAME,
   CONTROL_POINT_NAME,
+  Color,
 } from '@/constant';
 import { INode } from '@antv/g6/lib/interface/item';
 import { IPoint } from '@antv/g6/lib/types';
@@ -20,7 +21,7 @@ const getAnchorPointDefaultStyle = (item: INode, anchorPoint: number[]) => {
     r: 4,
     lineWidth: 1,
     fill: '#FFFFFF',
-    stroke: '#5AAAFF',
+    stroke: Color.Base,
     cursor: 'crosshair',
   };
 };
@@ -58,7 +59,7 @@ const removeAnchorPoints = (item: INode) => {
   const group = item.getContainer();
   const anchorPoints = group.findAllByName(ANCHOR_POINT_NAME);
 
-  anchorPoints.forEach(anchorPoint => {
+  anchorPoints.forEach((anchorPoint) => {
     group.removeChild(anchorPoint);
   });
 };
@@ -74,20 +75,33 @@ const controlPoints = [
 const drawControlPoints = (item: INode) => {
   const group = item.getContainer();
   const shapes = group.findAllByName(CONTROL_POINT_NAME);
+  const hasLocked = item.hasLocked();
   if (!shapes.length) {
     controlPoints.forEach((point, index) => {
-      group.addShape('rect', {
-        name: CONTROL_POINT_NAME,
-        point,
-        attrs: {
-          width: 8,
-          height: 8,
-          lineWidth: 1,
-          fill: '#FFFFFF',
-          stroke: '#5AAAFF',
-          cursor: [0, 3].includes(index) ? 'nwse-resize' : 'nesw-resize',
-        },
-      });
+      if (hasLocked) {
+        group.addShape('text', {
+          name: CONTROL_POINT_NAME,
+          point,
+          attrs: {
+            fill: Color.SnapLine,
+            text: 'x',
+            fontSize: 18,
+          },
+        });
+      } else {
+        group.addShape('rect', {
+          name: CONTROL_POINT_NAME,
+          point,
+          attrs: {
+            width: 8,
+            height: 8,
+            lineWidth: 1,
+            fill: '#FFFFFF',
+            stroke: Color.Base,
+            cursor: [0, 3].includes(index) ? 'nwse-resize' : 'nesw-resize',
+          },
+        });
+      }
     });
   }
 
@@ -98,13 +112,14 @@ const drawControlPoints = (item: INode) => {
 const updateControlPoints = (item: INode) => {
   const group = item.getContainer();
   const model = item.getModel();
+  const locked = item.hasLocked();
   const [width, height] = model.size as number[];
   const shapes = group.findAllByName(CONTROL_POINT_NAME);
   controlPoints.forEach((point, index) => {
     const [x, y] = point;
     shapes[index].attr({
-      x: width * x - 4,
-      y: height * y - 4,
+      x: width * x + (locked ? -4 : -4),
+      y: height * y + (locked ? 8 : -4),
     });
   });
 };
@@ -113,7 +128,7 @@ const updateControlPoints = (item: INode) => {
 const removeControlPoints = (item: INode) => {
   const group = item.getContainer();
   const controlPoints = group.findAllByName(CONTROL_POINT_NAME);
-  controlPoints.forEach(controlPoint => {
+  controlPoints.forEach((controlPoint) => {
     group.removeChild(controlPoint);
   });
 };

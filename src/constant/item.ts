@@ -5,7 +5,6 @@ export const ItemType: IItemType = {
   Node: 'node',
   Edge: 'edge',
   Combo: 'combo',
-  Group: 'group',
 };
 
 /** G6节点类型 */
@@ -23,6 +22,7 @@ export const NodeType = {
   FlowRoundRect: 'flowRoundRect',
   FlowCircle: 'flowCircle',
   FlowDiamond: 'flowDiamond',
+  FlowText: 'flowText',
 };
 
 /** 图形类型 */

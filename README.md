@@ -1,71 +1,27 @@
-# react-flowgraph-editor
+# r-flow-graph-editor
 
-基于 react 与 g6 的流程图编辑器
+## Getting Started
 
-## 开始使用
-
-安装依赖
+Install dependencies,
 
 ```bash
-$ npm i -s react-flowgraph-editor
+$ npm i
 ```
 
-```tsx
-import React, { useState } from 'react';
-import Editor, { DragItem } from 'react-flowgraph-editor';
-import './index.less';
+Start the dev server,
 
-const data = {
-  nodes: [
-    {
-      id: '111',
-      label: 'hello',
-      x: 100,
-      y: 100,
-    },
+```bash
+$ npm start
+```
 
-    {
-      id: '222',
-      label: 'hello',
-      x: 300,
-      y: 300,
-    },
-  ],
-  edges: [
-    {
-      source: '111',
-      sourceAnchor: 0,
-      target: '222',
-      targetAnchor: 0,
-    },
-  ],
-};
+Build documentation,
 
-export default () => {
-  const [canUndo, setCanUndo] = useState(false);
-  const [canRedo, setCanRedo] = useState(false);
+```bash
+$ npm run docs:build
+```
 
-  const onStackChange = e => {
-    setCanUndo(e.canUndo);
-    setCanRedo(e.canRedo);
-  };
+Build library via `father-build`,
 
-  return (
-    <div>
-      <div className="toolbar">
-        <button disabled={!canUndo}>撤销</button>
-        <button disabled={!canRedo}>恢复</button>
-      </div>
-      <div className="container">
-        <div className="dragitems">
-          <DragItem>矩形</DragItem>
-          <DragItem type="flowRoundRect">圆角矩形</DragItem>
-          <DragItem type="flowCircle">圆形</DragItem>
-          <DragItem type="flowDiamond">菱形</DragItem>
-        </div>
-        <Editor data={data} grid onStackChange={onStackChange} />
-      </div>
-    </div>
-  );
-};
+```bash
+$ npm run build
 ```

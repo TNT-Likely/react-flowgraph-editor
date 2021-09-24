@@ -1,6 +1,7 @@
 import { Instance } from '../';
 import { guid } from '@/util';
 
+import { Color } from '@/constant';
 import { INode } from '@antv/g6/lib/interface/item';
 import { IDirection, ILineNodeConfig, TLineAlignType } from '@/interface';
 import { ModelConfig, NodeConfig } from '@antv/g6/lib/types';
@@ -9,7 +10,7 @@ const X_LINE_NAME = 'x-line';
 const Y_LINE_NAME = 'y-line';
 const SHAPE_STYLE = {
   lineWidth: 1,
-  stroke: '#fa3426',
+  stroke: Color.SnapLine,
   opacity: 1,
 };
 
@@ -68,7 +69,7 @@ export const removeLine = (direction: IDirection) => {
   const group = graph.getGroup();
   const shapeName = direction === 'x' ? Y_LINE_NAME : X_LINE_NAME;
   const shapes = group.findAllByName(shapeName);
-  shapes.forEach(shape => {
+  shapes.forEach((shape) => {
     group.removeChild(shape);
   });
 };

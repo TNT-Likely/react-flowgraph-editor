@@ -7,6 +7,8 @@ import {
   WRAPPER_CLASS_NAME,
   LABEL_CLASS_NAME,
   WRAPPER_HORIZONTAL_PADDING,
+  Color,
+  ItemType,
 } from '@/constant';
 import { optimizeMultilineText } from '@/util';
 import {
@@ -32,7 +34,7 @@ const bizNode: any = {
     wrapperStyle: {
       fill: '#fff',
       lineWidth: 2,
-      stroke: '#5487ea',
+      stroke: Color.Base,
     },
     labelStyle: {
       fontSize: 14,
@@ -63,35 +65,67 @@ const bizNode: any = {
     /** 更新模型中的size数据, 后面很多环节可以用得到，不要删除 */
     model.size = this.getSize(model);
 
+    /** 文本类型节点给一个默认文案 */
+    if (model.type === NodeType.FlowText && model.label === undefined) {
+      model.label = '文本';
+    }
+
     const keyShape = this.drawWrapper(model, group);
 
     this.drawLabel(model, group);
+    this.setLabelText(model, group);
+    this.setWrapperStyle(model, group);
 
     return keyShape;
   },
 
+  /**
+   * 设置包裹样式
+   * @param model
+   * @param group
+   */
+  setWrapperStyle(model: NodeConfig, group: GGroup) {
+    const shape = group.findByClassName(WRAPPER_CLASS_NAME);
+    const { wrapperStyle } = this.getOptions(model);
+
+    shape.attr({
+      ...wrapperStyle,
+      ...model.style,
+    });
+  },
+
   setLabelText(model: NodeConfig, group: GGroup) {
     const shape = group.findByClassName(LABEL_CLASS_NAME);
+    const { labelStyle: defaultLabelStyle } = this.getOptions(model);
 
     if (!shape) {
       return;
     }
 
     const [width = 0] = this.getSize(model);
-    const { fontStyle, fontWeight, fontSize, fontFamily } = shape.attr();
+    const labelStyle = {
+      ...defaultLabelStyle,
+      ...model.labelCfg?.style,
+    };
+    const labelAttr = {
+      ...shape.attr(),
+      ...labelStyle,
+    };
+
+    const { fontStyle, fontWeight, fontSize, fontFamily } = labelAttr;
 
     const text = <string>model.label || '';
     const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
 
-    shape.attr(
-      'text',
-      optimizeMultilineText(
+    shape.attr({
+      ...labelAttr,
+      text: optimizeMultilineText(
         text,
         font,
         2,
         width - WRAPPER_HORIZONTAL_PADDING * 2,
       ),
-    );
+    });
   },
 
   update(model: NodeConfig, item: INode) {
@@ -100,6 +134,7 @@ const bizNode: any = {
     this.setLabelText(model, group);
     this.updateLabel(model, group);
     this.updateWrapper(model, group);
+    this.setWrapperStyle(model, group);
   },
 
   setState(name: string, value: boolean, item: INode) {
@@ -117,7 +152,7 @@ const bizNode: any = {
           ...options[`${shapeName}Style`],
         });
 
-        states.forEach(state => {
+        states.forEach((state) => {
           if (
             options.stateStyles[state] &&
             options.stateStyles[state][`${shapeName}Style`]

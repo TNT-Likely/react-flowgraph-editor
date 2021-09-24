@@ -25,6 +25,9 @@ export const BehaviorType = {
   /** 拖拽改变节点大小 */
   DragResizeNode: 'drag-resize-node',
 
+  /** 拖拽改变组大小 */
+  DragResizeCombo: 'drag-resize-combo',
+
   /** 移动节点 */
   MoveNode: 'move-node',
 
@@ -47,6 +50,7 @@ export const DefaultBehaviors = [
   BehaviorType.HoverItem,
   BehaviorType.ClickItem,
   BehaviorType.DragResizeNode,
+  BehaviorType.DragResizeCombo,
   BehaviorType.MoveNode,
   BehaviorType.DragCombo,
   BehaviorType.ShortCuts,

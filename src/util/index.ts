@@ -6,17 +6,20 @@ import { INode, IEdge, IItemBase } from '@antv/g6/lib/interface/item';
 
 import { INodeStack, IEdgeStack } from '@/interface';
 
+export * from './combo';
 export * from './graph';
 export * from './history';
 export * from './labelEditor';
 export * from './line';
+export * from './menu';
 export * from './polyline';
+export * from './state';
 export * from './tooltip';
 export * from './zoom';
 
 /** 生成唯一id */
 export const guid = () => {
-  return 'xxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -63,23 +66,6 @@ export const getSelectedNodes = (graph: Graph) => {
 /** 获取选中边线 */
 export const getSelectedEdges = (graph: Graph) => {
   return graph.findAllByState(ItemType.Edge, ItemState.Selected);
-};
-
-/** 清除选中状态 */
-export const clearSelectedState = (
-  graph: Graph,
-  shouldUpdate: (item: IItemBase) => boolean = () => true,
-) => {
-  const selectedNodes = getSelectedNodes(graph);
-  const selectedEdges = getSelectedEdges(graph);
-
-  executeBatch(graph, () => {
-    [...selectedNodes, ...selectedEdges].forEach(item => {
-      if (shouldUpdate(item)) {
-        graph.setItemState(item, ItemState.Selected, false);
-      }
-    });
-  });
 };
 
 /**
@@ -132,14 +118,4 @@ export const getStackData = (item: Item): INodeStack | IEdgeStack => {
   };
 
   return data;
-};
-
-/**
- * 移除所有的组合
- * @param {object} graph 图实例
- */
-export const removeAllCombo = (graph: Graph) => {
-  graph.getCombos().forEach(combo => {
-    graph.uncombo(combo);
-  });
 };

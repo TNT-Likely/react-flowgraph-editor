@@ -2,7 +2,10 @@
 export const KeyCode = {
   Backspace: 8,
   Control: 17,
+  Shift: 16,
+  A: 65,
   C: 67,
+  L: 76,
   V: 86,
   Y: 89,
   Z: 90,
