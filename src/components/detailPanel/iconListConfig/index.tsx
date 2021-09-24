@@ -1,13 +1,14 @@
 import React from 'react';
-import { Radio, Icon } from 'antd';
+import { Radio } from 'antd';
 import SingleConfig, {
   SingleConfigProps,
 } from '@/components/detailPanel/singleConfig';
+import { BoldOutlined } from '@ant-design/icons';
 
 import './index.less';
 
 interface IList {
-  type: string;
+  icon: typeof BoldOutlined;
   value: string;
 }
 
@@ -30,9 +31,9 @@ export default (props: IconListConfigProps) => {
         onChange={(e: any) => onChange?.(e.target.value)}
         size="small"
       >
-        {list.map(({ type, value }) => (
+        {list.map(({ icon: Icon, value }) => (
           <Radio.Button value={value} key={value}>
-            <Icon type={type} />
+            <Icon />
           </Radio.Button>
         ))}
       </Radio.Group>

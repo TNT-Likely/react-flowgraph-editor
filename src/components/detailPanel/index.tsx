@@ -1,5 +1,18 @@
 import React, { Children, ReactNode, useEffect, useState } from 'react';
-import { Input, InputNumber, Select, Icon } from 'antd';
+import { Input, InputNumber, Select } from 'antd';
+import {
+  LineOutlined,
+  DashOutlined,
+  SmallDashOutlined,
+  BoldOutlined,
+  ItalicOutlined,
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
+  VerticalAlignMiddleOutlined,
+  AlignLeftOutlined,
+  AlignRightOutlined,
+  AlignCenterOutlined,
+} from '@ant-design/icons';
 import {
   ItemType,
   LABEL_CLASS_NAME,
@@ -133,7 +146,6 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
           <div className={`${prefixCls}-header`}>背景配置</div>
           <div className={`${prefixCls}-content`}>
             <ColorConfig
-              type="bg-colors"
               defaultValue={wFill}
               onChange={(value: string) => handleWrappperChange('fill', value)}
             />
@@ -149,7 +161,6 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
       <div className={`${prefixCls}-header`}>边框配置</div>
       <div className={`${prefixCls}-content`}>
         <ColorConfig
-          type="bg-colors"
           defaultValue={stroke}
           onChange={(value: string) => handleWrappperChange('stroke', value)}
         />
@@ -171,9 +182,9 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
             ])
           }
           list={[
-            { label: <Icon type="line" />, value: '0' },
-            { label: <Icon type="small-dash" />, value: '1' },
-            { label: <Icon type="dash" />, value: '2' },
+            { label: <LineOutlined />, value: '0' },
+            { label: <SmallDashOutlined />, value: '1' },
+            { label: <DashOutlined />, value: '2' },
           ]}
         />
 
@@ -194,7 +205,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
               onChange={(value: string) => handleLabelChange('fill', value)}
             />
             <IconConfig
-              type="bold"
+              Icon={BoldOutlined}
               defaultValue={fontWeight}
               values={['normal', 'bold']}
               onChange={(value: string) =>
@@ -202,7 +213,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
               }
             />
             <IconConfig
-              type="italic"
+              Icon={ItalicOutlined}
               defaultValue={fontStyle}
               values={['normal', 'italic']}
               onChange={(value: string) =>
@@ -251,9 +262,9 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
               defaultValue={textBaseline}
               onChange={(value) => handleLabelChange('textBaseline', value)}
               list={[
-                { type: 'vertical-align-top', value: 'bottom' },
-                { type: 'vertical-align-middle', value: 'middle' },
-                { type: 'vertical-align-bottom', value: 'top' },
+                { icon: VerticalAlignTopOutlined, value: 'bottom' },
+                { icon: VerticalAlignMiddleOutlined, value: 'middle' },
+                { icon: VerticalAlignBottomOutlined, value: 'top' },
               ]}
               span={2}
             />
@@ -262,9 +273,9 @@ export const DetailPanel: React.FC<DetailPanelProps> = (props) => {
               defaultValue={textAlign}
               onChange={(value) => handleLabelChange('textAlign', value)}
               list={[
-                { type: 'align-left', value: 'right' },
-                { type: 'align-center', value: 'center' },
-                { type: 'align-right', value: 'left' },
+                { icon: AlignLeftOutlined, value: 'right' },
+                { icon: AlignCenterOutlined, value: 'center' },
+                { icon: AlignRightOutlined, value: 'left' },
               ]}
               span={2}
             />

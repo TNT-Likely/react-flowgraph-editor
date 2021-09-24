@@ -1,4 +1,4 @@
-# r-flow-graph-editor
+# r-flowgraph-editor
 
 ## Getting Started
 

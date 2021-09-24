@@ -1,7 +1,7 @@
 ---
 hero:
-  title: r-flow-graph-editor
-  desc: react 流程图编辑器
+  title: 流程图编辑器
+  desc: 基于react
   actions:
     - text: 开始上手
       link: /components
@@ -15,4 +15,4 @@ features:
 # footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](https://d.umijs.org)
 ---
 
-<!-- ## Hello r-flow-graph-editor! -->
+<code src="./demo/index.tsx">

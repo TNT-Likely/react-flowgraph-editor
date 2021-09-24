@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Icon } from 'antd';
 import SingleConfig, {
   SingleConfigProps,
 } from '@/components/detailPanel/singleConfig';
+import { BoldOutlined } from '@ant-design/icons';
 import { SelectConfigProps } from '../selectConfig';
 
 export interface IconConfigProps
   extends Pick<SelectConfigProps, 'label' | 'span'> {
-  type?: string;
+  Icon: typeof BoldOutlined;
   defaultValue?: string;
   values: [string, string];
   onChange?: (value: string) => void;
@@ -23,7 +23,7 @@ export const IconDefaultStyle = {
 };
 
 export default (props: IconConfigProps) => {
-  const { type, defaultValue, values, onChange, ...rest } = props;
+  const { Icon, defaultValue, values, onChange, ...rest } = props;
   const [value, setValue] = useState<string>(defaultValue || '');
   const active = value === values[1];
 
@@ -36,7 +36,6 @@ export default (props: IconConfigProps) => {
   return (
     <SingleConfig {...rest}>
       <Icon
-        type={type}
         onClick={toggle}
         style={{
           ...IconDefaultStyle,

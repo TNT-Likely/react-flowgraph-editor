@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Icon, Popover } from 'antd';
+import { Popover } from 'antd';
+import { FontColorsOutlined } from '@ant-design/icons';
 import { SketchPicker } from 'react-color';
 import SingleConfig, {
   SingleConfigProps,
@@ -8,13 +9,12 @@ import { IconDefaultStyle } from '@/components/detailPanel/iconConfig';
 
 export interface IconConfigProps
   extends Pick<SingleConfigProps, 'label' | 'span'> {
-  type?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
 }
 
 export default (props: IconConfigProps) => {
-  const { type = 'font-colors', defaultValue, onChange, ...rest } = props;
+  const { defaultValue, onChange, ...rest } = props;
   const [color, setColor] = useState<string>(defaultValue || '');
 
   return (
@@ -30,8 +30,7 @@ export default (props: IconConfigProps) => {
           />
         }
       >
-        <Icon
-          type={type}
+        <FontColorsOutlined
           style={{
             ...IconDefaultStyle,
           }}

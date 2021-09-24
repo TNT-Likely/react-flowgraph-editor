@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "r-flow-graph-editor",
+  "name": "r-flowgraph-editor",
   "version": "1.0.0",
   "scripts": {
     "start": "dumi dev",
@@ -28,8 +28,10 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.4",
     "@antv/g6": "^4.3.7",
     "antd": "^4.16.13",
+    "babel-plugin-import": "^1.13.3",
     "react": "^16.12.0",
     "react-color": "^2.19.3"
   },
